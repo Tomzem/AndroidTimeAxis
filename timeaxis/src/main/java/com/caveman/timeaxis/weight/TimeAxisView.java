@@ -33,7 +33,11 @@ public class TimeAxisView extends View {
     private float mLineWidth = 5; //线宽
     private int mLineColor = 0;     //线得颜色
     private int mCircleImage = 0; //关键点图标
-    private float mCircleRadius; //圆圈半径
+    private float mCircleRadius = 0; //圆圈半径
+    private float mTextSize = 0;
+    private int mTextColor = 0;
+    private int mBackGroundColor = 0;
+    private String mText = "";
 
     // 中心圆类型
     private int CIRCLE_SHAPE = SOLID_CIRCLE;
@@ -57,34 +61,34 @@ public class TimeAxisView extends View {
 
     public TimeAxisView(Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TimeAxisView);
         if (ta != null){
             mLineWidth = ta.getDimension(R.styleable.TimeAxisView_line_width, 5);
             mLineColor = ta.getColor(R.styleable.TimeAxisView_line_color, 0);
             mCircleImage = ta.getResourceId(R.styleable.TimeAxisView_circle_image, 0);
+            mTextSize = ta.getDimension(R.styleable.TimeAxisView_text_size, 50);
+            mTextColor = ta.getColor(R.styleable.TimeAxisView_text_color, 0);
+            mBackGroundColor = ta.getColor(R.styleable.TimeAxisView_background_color, 0);
+            mText = ta.getString(R.styleable.TimeAxisView_text);
         }
 
         initView();
     }
 
     private void initView() {
-        Gravity(GRAVITY_VERTICAL);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width = getMeasuredWidth() / 5;
-        height = getMeasuredHeight() / 2;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        Log.d(TAG, "onDraw: run" + mLineColor);
 
+        Gravity(GRAVITY);
         mCircleRadius = mLineWidth * 2;
         mPaint.setColor(mLineColor);
         mPaint.setStyle(Paint.Style.FILL);
@@ -94,14 +98,14 @@ public class TimeAxisView extends View {
             if (GRAVITY == GRAVITY_VERTICAL){
                 canvas.drawLine(start, 0, start, getHeight()/2 -mCircleRadius, mPaint);
             }else{
-//                canvas.drawLine(0, start, );
+                canvas.drawLine(0, start, getWidth()/2 - mCircleRadius, start, mPaint);
             }
         }
         if (!isFootPoint) {
             if (GRAVITY == GRAVITY_VERTICAL){
                 canvas.drawLine(start, getHeight() / 2 + mCircleRadius, start, getHeight(), mPaint);
             }else{
-
+                canvas.drawLine(getWidth()/2 + mCircleRadius, start, getWidth(), start,  mPaint);
             }
         }
 
@@ -115,12 +119,20 @@ public class TimeAxisView extends View {
             case CENTER_CIRCLE:
                 mPaint.setStyle(Paint.Style.FILL);
                 mPaint.setStrokeWidth(mLineWidth/2);
-                canvas.drawCircle(getWidth()/2-mCircleRadius/4, getHeight()/2, mCircleRadius/2, mPaint);
+                canvas.drawCircle(getWidth()/2, getHeight()/2, mCircleRadius/2, mPaint);
                 mPaint.setStyle(Paint.Style.STROKE);
                 break;
         }
         mPaint.setStrokeWidth(mLineWidth/2);
-        canvas.drawCircle(getWidth()/2-mCircleRadius/4, getHeight()/2, mCircleRadius, mPaint);
+        canvas.drawCircle(getWidth()/2, getHeight()/2, mCircleRadius, mPaint);
+
+        if (mTextColor != 0){
+            mPaint.setColor(mTextColor);
+        }
+        if (!mText.isEmpty()){
+            canvas.drawText(mText, start + mCircleRadius*2, getHeight()/2 -mCircleRadius, mPaint);
+        }
+        //TODO: 设置VIew 有Adapter设置View中的各个TextView值
     }
 
     /**
@@ -172,14 +184,17 @@ public class TimeAxisView extends View {
      *  横竖展示
      * @param gravity
      */
-    public void Gravity(int gravity){
+    public void setGravity(int gravity){
         this.GRAVITY = gravity;
+    }
+
+    private void Gravity(int gravity){
         switch (GRAVITY){
             case GRAVITY_VERTICAL:
-                start = (getWidth() - mLineWidth)/2;
+                start = (getWidth() - mLineWidth)/2 + mCircleRadius/4;
                 break;
             case GRAVITY_HORIZONTAL:
-                start = (getHeight() - mLineWidth)/2;
+                start = (getHeight() - mLineWidth)/2 + mCircleRadius/4;
                 break;
         }
         update();

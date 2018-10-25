@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.caveman.timeaxis.TimeAxisAdapter;
+import com.caveman.timeaxis.adapter.TimeAxisAdapter;
 import com.caveman.timeaxis.weight.TimeAxisView;
 
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private RecyclerView mRwList;
-//    private TimeAxisAdapter timeAdapter;
-//    private List<Map<String, String>> data;
+    private RecyclerView mRwList;
+    private TimeAxisAdapter timeAdapter;
+    private List<Map<String, String>> data;
 
     private TimeAxisView mTavLine;
 
@@ -26,28 +26,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTavLine  = findViewById(R.id.tav_line);
-        mTavLine.setLineWidth(10);
-        mTavLine.setLineColor(R.color.colorAccent);
-        mTavLine.setCircleShape(TimeAxisView.CENTER_CIRCLE);
-        mTavLine.isFootView(true);
-
-//        initData();
-//        mRwList = findViewById(R.id.rw_list);
-//        timeAdapter = new TimeAxisAdapter(this, data);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        mRwList.setLayoutManager(linearLayoutManager);
-//        mRwList.setAdapter(timeAdapter);
+        initData();
+        mRwList = findViewById(R.id.rw_list);
+        timeAdapter = new TimeAxisAdapter(this, data);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRwList.setLayoutManager(linearLayoutManager);
+        mRwList.setAdapter(timeAdapter);
     }
 
-//    private void initData() {
-//        data = new ArrayList<>();
-//        for (int i = 0; i < 10; i++){
-//            Map<String, String> map = new HashMap<>();
-//            map.put("time", System.currentTimeMillis() + "");
-//            map.put("content", "内容" + i);
-//            data.add(map);
-//        }
-//    }
+    private void initData() {
+        data = new ArrayList<>();
+        String content = "内容";
+        for (int i = 0; i < 10; i++){
+            Map<String, String> map = new HashMap<>();
+            map.put("time", System.currentTimeMillis() + "");
+            map.put("content", content + i);
+            content = content + content;
+            data.add(map);
+        }
+    }
 }

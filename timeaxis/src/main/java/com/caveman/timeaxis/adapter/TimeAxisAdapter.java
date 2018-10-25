@@ -1,4 +1,4 @@
-package com.caveman.timeaxis;
+package com.caveman.timeaxis.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.caveman.timeaxis.R;
+import com.caveman.timeaxis.weight.TimeAxisView;
 
 import java.util.List;
 import java.util.Map;
@@ -43,16 +46,18 @@ public class TimeAxisAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         Holder holder = (Holder)viewHolder;
 
+        holder.mTaLine.setLineWidth(5);
+        holder.mTaLine.setLineColor(R.color.colorAccent);
+
         if (i == 0){
             //首个item
+            holder.mTaLine.isHeadView(true);
         }
 
         if (i ==data.size()-1 ){
             //最后一个item
+            holder.mTaLine.isFootView(true);
         }
-
-        holder.mTvText.setText(data.get(i).get("content"));
-        holder.mTvTime.setText(data.get(i).get("time"));
     }
 
     @Override
@@ -61,17 +66,13 @@ public class TimeAxisAdapter extends RecyclerView.Adapter{
     }
 
     class Holder extends RecyclerView.ViewHolder  {
-        public View mViewLine;
-        public ImageView mViewPoint;
+        public TimeAxisView mTaLine;
         public TextView mTvTime;
         public TextView mTvText;
 
         public Holder(View root) {
             super(root);
-            mViewLine = root.findViewById(R.id.view_line);
-            mViewPoint = root.findViewById(R.id.view_point);
-            mTvTime =  root.findViewById(R.id.tv_time);
-            mTvText =  root.findViewById(R.id.tv_text);
+            mTaLine = root.findViewById(R.id.tav_line);
         }
     }
 }

@@ -7,12 +7,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
-    <com.caveman.timeaxis.weight.TimeAxisView
-        android:id="@+id/tav_line"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rw_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:line_width="18dp"
-        app:line_color="@color/colorPrimaryDark"
-        />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
