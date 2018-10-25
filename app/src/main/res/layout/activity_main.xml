@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="clip_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
@@ -10,7 +11,7 @@
         android:id="@+id/tav_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:line_width="10dp"
+        app:line_width="18dp"
         app:line_color="@color/colorPrimaryDark"
         />
 

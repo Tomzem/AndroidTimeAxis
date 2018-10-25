@@ -27,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mTavLine  = findViewById(R.id.tav_line);
-        mTavLine.setLineWidth(20);
+        mTavLine.setLineWidth(10);
+        mTavLine.setLineColor(R.color.colorAccent);
+        mTavLine.setCircleShape(TimeAxisView.CENTER_CIRCLE);
+        mTavLine.isFootView(true);
 
 //        initData();
 //        mRwList = findViewById(R.id.rw_list);
