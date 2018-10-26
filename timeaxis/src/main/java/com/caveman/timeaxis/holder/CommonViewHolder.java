@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 /**
  * Created by Administrator on 2018/10/26.
  * <p>
@@ -30,16 +32,6 @@ public class CommonViewHolder extends RecyclerView.ViewHolder{
     public View getContentView() {
         return mContentView;
     }
-
-//    public static CommonViewHolder getHolder(Context context, View convertView, int resID) {
-//        CommonViewHolder holder = null;
-//        if(convertView == null){
-//            holder = new CommonViewHolder(context, resID);
-//        } else {
-//            holder = (CommonViewHolder) convertView.getTag();
-//        }
-//        return holder;
-//    }
 
     /**
      * 通过控件的Id获取对于的控件，如果没有则加入mSparseArray
@@ -70,11 +62,11 @@ public class CommonViewHolder extends RecyclerView.ViewHolder{
         return this;
     }
 
-//    public CommonViewHolder setImageByUrl(int id, String url) {
-//        ImageView view = getView(id);
-//        Glide.with(mContext).load(url).into(view);
-//        return this;
-//    }
+    public CommonViewHolder setImageByUrl(int id, String url) {
+        ImageView view = getView(id);
+        Glide.with(mContext).load(url).into(view);
+        return this;
+    }
 
     public CommonViewHolder setImageResource(int id, int resId) {
         ImageView view = getView(id);
