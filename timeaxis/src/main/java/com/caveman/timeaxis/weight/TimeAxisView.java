@@ -30,13 +30,19 @@ public class TimeAxisView extends View {
     public static final int GRAVITY_VERTICAL = 1;
     public static final int GRAVITY_HORIZONTAL = -1;
 
-    private Paint mPaint;
+    private Paint mLinePaint; // 线画笔
+    private Paint mPointPaint; // 点画笔
+    private Paint mTextPaint;  //字画笔
     private Context mContext;
 
     private float mLineWidth = 5; //线宽
     private int mLineColor = 0;     //线得颜色
     private int mCircleImage = 0; //关键点图标
     private float mCircleRadius = 0; //圆圈半径
+    private int mPointColor = 0;
+    private int mTextColor = 0;
+    private float mSmallTextSize = 20;
+    private float mBigTextSize = 40;
 
     // 中心圆类型
     private int CIRCLE_SHAPE = SOLID_CIRCLE;
@@ -74,8 +80,14 @@ public class TimeAxisView extends View {
     }
 
     private void initView() {
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    }
+        mLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mLinePaint.setStyle(Paint.Style.FILL);
+
+        mPointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setStyle(Paint.Style.FILL);
+}
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -114,59 +126,57 @@ public class TimeAxisView extends View {
 
         mCircleRadius = mLineWidth * 2;
         Gravity(GRAVITY);
-        mPaint.setColor(mLineColor);
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setStrokeWidth(mLineWidth);
+        mLinePaint.setColor(mLineColor);
+        mLinePaint.setStrokeWidth(mLineWidth);
 
         if (!isHeadPoint){
             if (GRAVITY == GRAVITY_VERTICAL){
-                canvas.drawLine(start, 0, start, getHeight()/2-mCircleRadius, mPaint);
+                canvas.drawLine(start, 0, start, getHeight()/2-mCircleRadius, mLinePaint);
             }else{
-                canvas.drawLine(0, start, getWidth()/2 - mCircleRadius, start, mPaint);
+                canvas.drawLine(0, start, getWidth()/2 - mCircleRadius, start, mLinePaint);
             }
         }
         if (!isFootPoint) {
             if (GRAVITY == GRAVITY_VERTICAL){
-                canvas.drawLine(start, getHeight() / 2+mCircleRadius, start, getHeight(), mPaint);
+                canvas.drawLine(start, getHeight() / 2+mCircleRadius, start, getHeight(), mLinePaint);
             }else{
-                canvas.drawLine(getWidth()/2 + mCircleRadius, start, getWidth(), start,  mPaint);
+                canvas.drawLine(getWidth()/2 + mCircleRadius, start, getWidth(), start,  mLinePaint);
             }
         }
 
         switch (CIRCLE_SHAPE){
             case SOLID_CIRCLE:
-                mPaint.setStyle(Paint.Style.FILL);
+                mPointPaint.setStyle(Paint.Style.FILL);
                 break;
             case HOLLOW_CIRCLE:
-                mPaint.setStyle(Paint.Style.STROKE);
+                mPointPaint.setStyle(Paint.Style.STROKE);
                 break;
             case CENTER_CIRCLE:
-                mPaint.setStyle(Paint.Style.FILL);
-                mPaint.setStrokeWidth(mLineWidth/2);
-                canvas.drawCircle(start, getHeight()/2, mCircleRadius/2, mPaint);
-                mPaint.setStyle(Paint.Style.STROKE);
+                mPointPaint.setStyle(Paint.Style.FILL);
+                mPointPaint.setStrokeWidth(mLineWidth/2);
+                canvas.drawCircle(start, getHeight()/2, mCircleRadius/2, mPointPaint);
+                mPointPaint.setStyle(Paint.Style.STROKE);
                 break;
         }
-        mPaint.setStrokeWidth(mLineWidth/2);
-        canvas.drawCircle(start, getHeight()/2, mCircleRadius, mPaint);
+        mPointPaint.setStrokeWidth(mLineWidth/2);
+        canvas.drawCircle(start, getHeight()/2, mCircleRadius, mPointPaint);
         drawLeftText(canvas);
     }
 
 
 
     private void drawLeftText(Canvas canvas) {
-        mPaint.setStyle(Paint.Style.FILL);
         if (!mSmallText.isEmpty()){
-            mPaint.setTextSize(40);
+            mTextPaint.setTextSize(40);
             Rect bounds = new Rect();
-            mPaint.getTextBounds(mSmallText, 0, mSmallText.length(), bounds);
-            canvas.drawText(mSmallText, start - bounds.width() - mCircleRadius*2 , getHeight()/2 + bounds.height(), mPaint);
+            mTextPaint.getTextBounds(mSmallText, 0, mSmallText.length(), bounds);
+            canvas.drawText(mSmallText, start - bounds.width() - mCircleRadius*2 , getHeight()/2 + bounds.height(), mTextPaint);
         }
         if (!mBigText.isEmpty()){
-            mPaint.setTextSize(60);
+            mTextPaint.setTextSize(60);
             Rect bounds = new Rect();
-            mPaint.getTextBounds(mBigText, 0, mBigText.length(), bounds);
-            canvas.drawText(mBigText, start - bounds.width() - mCircleRadius*2 , getHeight()/2, mPaint);
+            mTextPaint.getTextBounds(mBigText, 0, mBigText.length(), bounds);
+            canvas.drawText(mBigText, start - bounds.width() - mCircleRadius*2 , getHeight()/2, mTextPaint);
         }
     }
 

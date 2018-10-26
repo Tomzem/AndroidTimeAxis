@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         app:line_color="@color/colorPrimaryDark"
-        app:line_width="5dp" />
+        app:line_width="3dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,8 +24,7 @@
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:layout_centerVertical="true"/>
+            android:text="@string/app_name"/>
 
         <ImageView
             android:id="@+id/img_content"

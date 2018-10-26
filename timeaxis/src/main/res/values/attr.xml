@@ -4,9 +4,9 @@
         <attr name="line_width" format="dimension"/>
         <attr name="line_color" format="color"/>
         <attr name="circle_image" format="reference"/>
-    </declare-styleable>
-
-    <declare-styleable name="TimeAxisLayout">
-        <attr name="content_view" format="reference"/>
+        <attr name="point_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="big_text_size" format="dimension"/>
+        <attr name="small_text_size" format="dimension"/>
     </declare-styleable>
 </resources>

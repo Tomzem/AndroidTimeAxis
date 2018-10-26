@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         String content = "内容";
         for (int i = 0; i < 10; i++){
             TimeInfo timeInfo = new TimeInfo();
-            content = content + content + i ;
+            content = content + "内容" + i ;
             timeInfo.setMsg(content);
             timeInfo.setBigText("大字"+i);
             timeInfo.setSmallText("小字体哦" + i);

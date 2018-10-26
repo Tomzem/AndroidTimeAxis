@@ -31,6 +31,14 @@ public class ListAdapter extends TimeAxisAdapter<TimeInfo> {
         mTimeAxisView.setBigText(timeInfo.getBigText());
         mTimeAxisView.setSmallText(timeInfo.getSmallText());
 
+        if (position<3){
+            mTimeAxisView.setCircleShape(TimeAxisView.SOLID_CIRCLE);
+        }else if(position == 3){
+            mTimeAxisView.setCircleShape(TimeAxisView.CENTER_CIRCLE);
+        }else{
+            mTimeAxisView.setCircleShape(TimeAxisView.HOLLOW_CIRCLE);
+        }
+
 
         holder.setText(R.id.tv_content, timeInfo.getMsg());
     }
