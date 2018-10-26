@@ -1,78 +1,77 @@
 package com.caveman.timeaxis.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.caveman.timeaxis.R;
+import com.caveman.timeaxis.holder.CommonViewHolder;
 import com.caveman.timeaxis.weight.TimeAxisView;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2018/10/25.
  * <p>
  * Description:
  */
-public class TimeAxisAdapter extends RecyclerView.Adapter{
+public abstract class TimeAxisAdapter<T> extends RecyclerView.Adapter{
 
+    protected List<T> mDataSource;
     private Context mContext;
-    private  List<Map<String, String>> data;
-    private int layout = R.layout.item_list;
+    private int resID = R.layout.list_item;
 
-    public TimeAxisAdapter(Context mContext, List<Map<String, String>> data){
+    public TimeAxisAdapter(List<T> mDataSource, Context mContext) {
+        this.mDataSource = mDataSource;
         this.mContext = mContext;
-        this.data = data;
     }
 
-    public TimeAxisAdapter(Context mContext, List<Map<String, String>> data, int layout) {
+    public TimeAxisAdapter(List<T> mDataSource, Context mContext, int resID) {
+        this.mDataSource = mDataSource;
         this.mContext = mContext;
-        this.data = data;
-        this.layout = layout;
+        this.resID = resID;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new Holder(LayoutInflater.from(mContext).inflate(layout, null));
+        return new CommonViewHolder(LayoutInflater.from(mContext).inflate(resID, null));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        Holder holder = (Holder)viewHolder;
-
-        holder.mTaLine.setLineWidth(5);
-        holder.mTaLine.setLineColor(R.color.colorAccent);
-
-        if (i == 0){
-            //首个item
-            holder.mTaLine.isHeadView(true);
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        CommonViewHolder holder = (CommonViewHolder)viewHolder;
+        if (resID == R.layout.list_item){
+            TimeAxisView mTimeAxisView = holder.getView(R.id.tav_line);
+            if (position == 0){
+                mTimeAxisView.isHeadView(true);
+            }else{
+                mTimeAxisView.isHeadView(false);
+            }
+            if (position == mDataSource.size()-1){
+                mTimeAxisView.isFootView(true);
+            }else{
+                mTimeAxisView.isFootView(false);
+            }
         }
-
-        if (i ==data.size()-1 ){
-            //最后一个item
-            holder.mTaLine.isFootView(true);
-        }
+        initView(holder, position);
     }
+
+    protected abstract void initView(CommonViewHolder holder, int position);
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return mDataSource == null ? 0 : mDataSource.size();
     }
 
-    class Holder extends RecyclerView.ViewHolder  {
-        public TimeAxisView mTaLine;
-        public TextView mTvTime;
-        public TextView mTvText;
-
-        public Holder(View root) {
-            super(root);
-            mTaLine = root.findViewById(R.id.tav_line);
-        }
+    public void refresh(List<T> dataSource) {
+        mDataSource = dataSource;
+        this.notifyDataSetChanged();
     }
+
+    public void deleteList(int position) {
+        mDataSource.remove(position);
+        this.notifyDataSetChanged();
+    }
+
 }
