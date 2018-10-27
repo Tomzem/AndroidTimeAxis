@@ -35,7 +35,7 @@ public abstract class TimeAxisAdapter<T> extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        return new CommonViewHolder(LayoutInflater.from(mContext).inflate(resID, null));
+        return new CommonViewHolder(LayoutInflater.from(mContext).inflate(resID, null),mContext);
     }
 
     @Override

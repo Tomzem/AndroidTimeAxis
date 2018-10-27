@@ -4,6 +4,7 @@
         <attr name="line_width" format="dimension"/>
         <attr name="line_color" format="color"/>
         <attr name="circle_image" format="reference"/>
+        <attr name="point_size" format="dimension"/>
         <attr name="point_color" format="color"/>
         <attr name="text_color" format="color"/>
         <attr name="big_text_size" format="dimension"/>

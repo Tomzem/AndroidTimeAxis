@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter timeAdapter;
     private List<TimeInfo> data;
 
-    private TimeAxisView mTavLine;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,14 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData() {
         data = new ArrayList<>();
-        String content = "内容";
-        for (int i = 0; i < 10; i++){
-            TimeInfo timeInfo = new TimeInfo();
-            content = content + "内容" + i ;
-            timeInfo.setMsg(content);
-            timeInfo.setBigText("大字"+i);
-            timeInfo.setSmallText("小字体哦" + i);
-            data.add(timeInfo);
-        }
+        data.add(new TimeInfo("订单提交成功","2018/10/27","13:05","",1));
+        data.add(new TimeInfo("订单已支付","2018/10/27","13:05","",1));
+        data.add(new TimeInfo("商家已接单","2018/10/27","13:05","",1));
+        data.add(new TimeInfo("骑手已接单","2018/10/27","13:11","",1));
+        data.add(new TimeInfo("骑手已到店","2018/10/27","13:16","",1));
+        data.add(new TimeInfo("骑手已取货","2018/10/27","13:22","",1));
+        data.add(new TimeInfo("骑手正在送货","","","https://avatars3.githubusercontent.com/u/32257815?s=64&v=4",0));
+        data.add(new TimeInfo("商品已送达","","","",-1));
     }
 }

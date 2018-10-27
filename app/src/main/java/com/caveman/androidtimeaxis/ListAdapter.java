@@ -1,6 +1,8 @@
 package com.caveman.androidtimeaxis;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.caveman.timeaxis.holder.CommonViewHolder;
 import com.caveman.timeaxis.adapter.TimeAxisAdapter;
@@ -30,14 +32,24 @@ public class ListAdapter extends TimeAxisAdapter<TimeInfo> {
         TimeAxisView mTimeAxisView = holder.getView(com.caveman.timeaxis.R.id.tav_line);
         mTimeAxisView.setBigText(timeInfo.getBigText());
         mTimeAxisView.setSmallText(timeInfo.getSmallText());
-
-        if (position<3){
+        //根据状态设置圆圈样式
+        if (timeInfo.getState() == 1){
             mTimeAxisView.setCircleShape(TimeAxisView.SOLID_CIRCLE);
-        }else if(position == 3){
+        }else if(timeInfo.getState() == 0){
             mTimeAxisView.setCircleShape(TimeAxisView.CENTER_CIRCLE);
         }else{
             mTimeAxisView.setCircleShape(TimeAxisView.HOLLOW_CIRCLE);
         }
+
+        ImageView imageView = holder.getView(R.id.img_content);
+        if (timeInfo.getImagePath().isEmpty()){
+            imageView.setVisibility(View.GONE);
+        }else{
+            imageView.setVisibility(View.VISIBLE);
+            holder.setImageByUrl(R.id.img_content, timeInfo.getImagePath());
+        }
+
+
 
 
         holder.setText(R.id.tv_content, timeInfo.getMsg());

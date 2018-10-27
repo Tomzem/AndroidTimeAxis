@@ -41,8 +41,8 @@ public class TimeAxisView extends View {
     private float mCircleRadius = 0; //圆圈半径
     private int mPointColor = 0;
     private int mTextColor = 0;
-    private float mSmallTextSize = 20;
-    private float mBigTextSize = 40;
+    private float mSmallTextSize = 35;
+    private float mBigTextSize = 45;
 
     // 中心圆类型
     private int CIRCLE_SHAPE = SOLID_CIRCLE;
@@ -71,10 +71,19 @@ public class TimeAxisView extends View {
         super(context, attrs, defStyleAttr);
         mContext = context;
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TimeAxisView);
-        if (ta != null){
-            mLineWidth = ta.getDimension(R.styleable.TimeAxisView_line_width, 5);
-            mLineColor = ta.getColor(R.styleable.TimeAxisView_line_color, 0);
-            mCircleImage = ta.getResourceId(R.styleable.TimeAxisView_circle_image, 0);
+        try {
+            if (ta != null){
+                mLineWidth = ta.getDimension(R.styleable.TimeAxisView_line_width, 5);
+                mLineColor = ta.getColor(R.styleable.TimeAxisView_line_color, getResources().getColor(R.color.colorAccent));
+                mCircleImage = ta.getResourceId(R.styleable.TimeAxisView_circle_image, 0);
+                mCircleRadius = ta.getResourceId(R.styleable.TimeAxisView_point_size, 0);
+                mPointColor = ta.getColor(R.styleable.TimeAxisView_point_color, getResources().getColor(R.color.colorAccent));
+                mTextColor = ta.getColor(R.styleable.TimeAxisView_text_color, getResources().getColor(R.color.colorAccent));
+                mBigTextSize = ta.getDimension(R.styleable.TimeAxisView_big_text_size, 45);
+                mSmallTextSize = ta.getDimension(R.styleable.TimeAxisView_small_text_size, 35);
+            }
+        }finally {
+            ta.recycle();
         }
         initView();
     }
@@ -124,7 +133,9 @@ public class TimeAxisView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        mCircleRadius = mLineWidth * 2;
+        if (mCircleRadius == 0){
+            mCircleRadius = mLineWidth * 2;
+        }
         Gravity(GRAVITY);
         mLinePaint.setColor(mLineColor);
         mLinePaint.setStrokeWidth(mLineWidth);
@@ -144,6 +155,7 @@ public class TimeAxisView extends View {
             }
         }
 
+        mPointPaint.setColor(mPointColor);
         switch (CIRCLE_SHAPE){
             case SOLID_CIRCLE:
                 mPointPaint.setStyle(Paint.Style.FILL);
@@ -166,14 +178,15 @@ public class TimeAxisView extends View {
 
 
     private void drawLeftText(Canvas canvas) {
+        mTextPaint.setColor(mTextColor);
         if (!mSmallText.isEmpty()){
-            mTextPaint.setTextSize(40);
+            mTextPaint.setTextSize(mSmallTextSize);
             Rect bounds = new Rect();
             mTextPaint.getTextBounds(mSmallText, 0, mSmallText.length(), bounds);
             canvas.drawText(mSmallText, start - bounds.width() - mCircleRadius*2 , getHeight()/2 + bounds.height(), mTextPaint);
         }
         if (!mBigText.isEmpty()){
-            mTextPaint.setTextSize(60);
+            mTextPaint.setTextSize(mBigTextSize);
             Rect bounds = new Rect();
             mTextPaint.getTextBounds(mBigText, 0, mBigText.length(), bounds);
             canvas.drawText(mBigText, start - bounds.width() - mCircleRadius*2 , getHeight()/2, mTextPaint);
@@ -259,6 +272,51 @@ public class TimeAxisView extends View {
      */
     public void setBigText(String text){
         this.mBigText = text;
+        update();
+    }
+
+    /**
+     *  设置字体颜色
+     * @param resourceId
+     */
+    public void setTextColor(int resourceId){
+        this.mTextColor = getResources().getColor(resourceId);
+        update();
+    }
+
+    /**
+     *  设置圆点颜色
+     * @param resourceId
+     */
+    public void setPointColor(int resourceId){
+        this.mPointColor = getResources().getColor(resourceId);
+        update();
+    }
+
+    /**
+     * 设置大字尺寸
+     * @param size
+     */
+    public void setBigTextSize(float size){
+        this.mBigTextSize = size;
+        update();
+    }
+
+    /**
+     * 设置小字尺寸
+     * @param size
+     */
+    public void setSmallTextSize(float size){
+        this.mSmallTextSize = size;
+        update();
+    }
+
+    /**
+     *  设置圆圆半径
+     * @param size
+     */
+    public void setPointRadius(float size){
+        this.mCircleRadius = size;
         update();
     }
 

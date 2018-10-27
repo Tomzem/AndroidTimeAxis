@@ -24,9 +24,10 @@ public class CommonViewHolder extends RecyclerView.ViewHolder{
 
     private Context mContext;
 
-    public CommonViewHolder(View itemView) {
+    public CommonViewHolder(View itemView, Context context) {
         super(itemView);
         this.mContentView = itemView;
+        this.mContext = context;
     }
 
     public View getContentView() {
