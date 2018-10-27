@@ -21,10 +21,21 @@ public class ListAdapter extends TimeAxisAdapter<TimeInfo> {
         super(mDataSource, mContext);
     }
 
+    /**
+     *
+     * @param mDataSource 数据源
+     * @param mContext
+     * @param resID 自定义item布局
+     */
     public ListAdapter(List<TimeInfo> mDataSource, Context mContext, int resID) {
         super(mDataSource, mContext, resID);
     }
 
+    /**
+     *  相当于RecyclerView.Adapter的onBindViewHolder方法
+     * @param holder
+     * @param position
+     */
     @Override
     protected void initView(CommonViewHolder holder, int position) {
         TimeInfo timeInfo = mDataSource.get(position);
@@ -48,9 +59,6 @@ public class ListAdapter extends TimeAxisAdapter<TimeInfo> {
             imageView.setVisibility(View.VISIBLE);
             holder.setImageByUrl(R.id.img_content, timeInfo.getImagePath());
         }
-
-
-
 
         holder.setText(R.id.tv_content, timeInfo.getMsg());
     }
