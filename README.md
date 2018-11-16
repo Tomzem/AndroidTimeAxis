@@ -28,7 +28,7 @@ Step 2. Add the dependency
         android:layout_height="match_parent"
         android:scrollbars="horizontal"/>
 ```
-2.需要重写TimeAxisAdapter重写Adapter:
+2.需要继承TimeAxisAdapter重写Adapter:
 ```
     public ListAdapter(List<TimeInfo> mDataSource, Context mContext) {
         super(mDataSource, mContext);
